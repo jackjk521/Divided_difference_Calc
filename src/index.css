@@ -17,6 +17,17 @@ padding-left: 240px;
 }
 }
 
+@media (min-width: 576px) {
+  /* Small devices (576px and up) */
+  .custom-dropdown span {
+    font-size: 20px; /* Increase font size for small devices */
+  }
+  
+  .custom-dropdown ul li {
+    font-size: 18px; /* Increase font size for small devices */
+  }
+}
+
 viewport {
   padding-left: 250px;
   -webkit-transition: all 0.5s ease;
@@ -133,3 +144,8 @@ h1 {
 .list-group-item:hover {
   background-color: #e9ecef;
 }
+
+.custom-dropdown {
+  padding: 25px;
+}
+
