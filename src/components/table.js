@@ -6,7 +6,8 @@ const TableGenerator = (props) => {
 	const [xArray, setXArray] = useState([]);
 	const [fArray, setFArray] = useState([]);
 	const [interpolateValue, setInterpolateValue] = useState(0);
-  const [output, newOutput] = useState('')
+  const [output, newOutput] = useState('');
+  const [equation, newEquation] = useState('');
 	const numRowsInputRef = useRef(null);
 
 	function round(value, decimals) {
@@ -43,7 +44,8 @@ const TableGenerator = (props) => {
       final += equation;
       string = string + " + " + stringequation + "(" + round(dividedAnswer, 5) + ")";
     }
-    newOutput("Output: " + final + ", Polynomial Function: " + string)
+    newEquation(string);
+    newOutput(final);
     props.parentCallback(final, string, x, f)
   }
 
@@ -119,7 +121,8 @@ const TableGenerator = (props) => {
 		setXArray([]);
 		setFArray([]);
 		setInterpolateValue("");
-    	newOutput('');
+    newEquation('');
+    newOutput('');
 		props.parentCallback('', '', [], [])
 
 		if (numRowsInputRef.current) {
@@ -128,68 +131,88 @@ const TableGenerator = (props) => {
 	};
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div>
-        <label htmlFor="numRowsInput">Enter the number of rows: </label>
-        <input
-          type="number"
-          id="numRowsInput"
-          ref={numRowsInputRef}
-          onChange={handleNumRowsChange}
-          min="0"
-        />
-        <button onClick={generateTable}>Generate Table</button>
-        {tableData.length > 0 && (
-          <div>
-            <table>
-              <thead>
-                <tr>
-                  <th>x</th>
-                  <th>f</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tableData.map((row, index) => (
-                  <tr key={index}>
-                    <td>
-                      <input
-                        type="text"
-                        value={row.x}
-                        onChange={(e) => handleCellValueChange(e, index, 'x')}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        value={row.f}
-                        onChange={(e) => handleCellValueChange(e, index, 'f')}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <label htmlFor="interpolateValueInput">Value to interpolate:</label>
-            <input
-              type="text"
-              id="interpolateValueInput"
-              value={interpolateValue}
-              onChange={handleInterpolateValueChange}
-            />
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
-              <button onClick={handleDataOperation}>Store and Print Data</button>
-              <button onClick={handleRandomizeValues}>Randomize Values</button>
-              <button onClick={handleReset}>Reset</button>
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
-              <p>
-                {output}
-              </p>
-            </div>
-          </div>
-        )}
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',  paddingBottom: '1rem' }}  className="table-container">
+      <div className="container">
+  <div className="row justify-content-center">
+    <div className="col-lg-6">
+      <label htmlFor="numRowsInput">Enter the number of rows: </label>
+      <div className="row">
+        <div className="col-md-8">
+          <input
+            type="number"
+            id="numRowsInput"
+            ref={numRowsInputRef}
+            onChange={handleNumRowsChange}
+            min="0"
+            className="form-control mb-2"
+          />
+        </div>
+        <div className="col-md-4">
+          <button onClick={generateTable} className="btn btn-primary mb-2">Generate Table</button>
+        </div>
       </div>
+
+      {tableData.length > 0 && (
+        <div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>x</th>
+                <th>f</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tableData.map((row, index) => (
+                <tr key={index}>
+                  <td>
+                    <input
+                      type="text"
+                      value={row.x}
+                      onChange={(e) => handleCellValueChange(e, index, 'x')}
+                      className="form-control"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={row.f}
+                      onChange={(e) => handleCellValueChange(e, index, 'f')}
+                      className="form-control"
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <label htmlFor="interpolateValueInput">Value to interpolate:</label>
+          <input
+            type="text"
+            id="interpolateValueInput"
+            value={interpolateValue}
+            onChange={handleInterpolateValueChange}
+            className="form-control mb-2"
+          />
+          <div className="d-flex justify-content-center"  style={{ padding: '1rem' }}>
+            <button onClick={handleDataOperation} className="btn btn-success me-2">Show Output</button>
+            <button onClick={handleRandomizeValues} className="btn btn-secondary me-2">Randomize Values</button>
+            <button onClick={handleReset} className="btn btn-danger">Reset</button>
+          </div>
+        </div>
+      )}
+      {output && (
+        <><div className="output-container mt-3">
+                <p className="mb-0">
+                  <strong>Function:</strong> {equation}
+                </p>
+              </div><div className="output-container mt-3">
+                  <p className="mb-0">
+                  <strong>Output: </strong> {output}
+                  </p>
+              </div></>
+      )}
+    </div>
+  </div>
+</div>
     </div>
   );
 }
