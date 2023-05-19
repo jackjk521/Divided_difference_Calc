@@ -4,7 +4,7 @@ function TableGenerator() {
   const [numRows, setNumRows] = useState(0);
   const [tableData, setTableData] = useState([]);
   const [xArray, setXArray] = useState([]);
-  const [yArray, setYArray] = useState([]);
+  const [fArray, setFArray] = useState([]);
   const [interpolateValue, setInterpolateValue] = useState('');
 
   const handleNumRowsChange = (e) => { //Number of rows can only be whole numbers
@@ -35,7 +35,7 @@ function TableGenerator() {
     for (let i = 0; i < numRows; i++) {
       rows.push({
         x: '',
-        fx: ''
+        f: ''
       });
     }
     setTableData(rows);
@@ -43,68 +43,89 @@ function TableGenerator() {
 
   const handleDataOperation = () => { //putiing values from table to arrays
     const xValues = [];
-    const yValues = [];
+    const fValues = [];
 
     tableData.forEach((row) => {
       xValues.push(row.x);
-      yValues.push(row.fx);
+      fValues.push(row.f);
     });
 
     setXArray(xValues);
-    setYArray(yValues);
- 
-    //ATM prints the arrays of data inputted by the user in console
-    console.log('x:', xValues);
-    console.log('y:', yValues);
+    setFArray(fValues);
+
+    //ATM prints the arrays of data inputted by user
+    console.log('xArray:', xValues);
+    console.log('fArray:', fValues);
     console.log('Value to interpolate:', interpolateValue);
   };
 
+  const handleRandomizeValues = () => {
+    const randomizedData = tableData.map((row) => ({
+      x: (Math.random() * 100).toFixed(2),
+      f: (Math.random() * 100).toFixed(2)
+    }));
+
+    setTableData(randomizedData);
+  };
+
+  const handleReset = () => {
+    setNumRows(0);
+    setTableData([]);
+    setXArray([]);
+    setFArray([]);
+    setInterpolateValue('');
+  };
+
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div>
         <label htmlFor="numRowsInput">Enter the number of rows: </label>
         <input type="number" id="numRowsInput" onChange={handleNumRowsChange} min="0" />
         <button onClick={generateTable}>Generate Table</button>
         {tableData.length > 0 && (
-          <table>
-            <thead>
-              <tr>
-                <th>x</th>
-                <th>f(x)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tableData.map((row, index) => (
-                <tr key={index}>
-                  <td>
-                    <input
-                      type="text"
-                      value={row.x}
-                      onChange={(e) => handleCellValueChange(e, index, 'x')}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      value={row.fx}
-                      onChange={(e) => handleCellValueChange(e, index, 'fx')}
-                    />
-                  </td>
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>x</th>
+                  <th>f</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {tableData.map((row, index) => (
+                  <tr key={index}>
+                    <td>
+                      <input
+                        type="text"
+                        value={row.x}
+                        onChange={(e) => handleCellValueChange(e, index, 'x')}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        value={row.f}
+                        onChange={(e) => handleCellValueChange(e, index, 'f')}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <label htmlFor="interpolateValueInput">Value to interpolate:</label>
+            <input
+              type="text"
+              id="interpolateValueInput"
+              value={interpolateValue}
+              onChange={handleInterpolateValueChange}
+            />
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+              <button onClick={handleRandomizeValues}>Randomize Values</button>
+              <button onClick={handleReset}>Reset</button>
+              <button onClick={handleDataOperation}>Store and Print Data</button>
+            </div>
+          </div>
         )}
-        <label htmlFor="interpolateValueInput">Value to interpolate:</label>
-        <input
-          type="text"
-          id="interpolateValueInput"
-          value={interpolateValue}
-          onChange={handleInterpolateValueChange}
-        />
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
-          <button onClick={handleDataOperation}>Store and Print Data</button>
-        </div>
       </div>
     </div>
   );
