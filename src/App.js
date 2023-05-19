@@ -12,6 +12,7 @@ function App() {
   const [xArr, setXArr] = useState([]);
   const [fArr, setFArr] = useState([]);
   const [fx, setFx] = useState("");
+  const [displayGraph, setDisplayGraph] = useState(false)
 
   const output = (final, string, x, f) => {
     console.log(final);
@@ -20,6 +21,7 @@ function App() {
     setXArr(x);
     setFArr(f);
     setFx(string);
+	setDisplayGraph(prev => !prev)
   };
 
   return (
@@ -121,7 +123,7 @@ function App() {
           <div id="program">
             <h4>Program</h4>
             <TableGenerator parentCallback={output} />
-            <GraphComponent x={xArr} y={fArr} fx={fx} />
+            {displayGraph && <GraphComponent x={xArr} y={fArr} fx={fx} />} 
           </div>
           <hr />
           {/* <div id="conclusion"  class="container my-4 py-3 border">
