@@ -202,7 +202,7 @@ const TableGenerator = (props) => {
       {output && (
         <><div className="output-container mt-3">
                 <p className="mb-0">
-                  <strong>Function:</strong> {equation}
+                  <strong>Polynomial Function:</strong> {equation}
                 </p>
               </div><div className="output-container mt-3">
                   <p className="mb-0">

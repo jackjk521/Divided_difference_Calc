@@ -145,7 +145,16 @@ h1 {
   background-color: #e9ecef;
 }
 
-.custom-dropdown {
-  padding: 25px;
+.container {
+  max-width: 600px;
+  margin: 0 auto;
 }
+
+.custom-width {
+  width: 18%; /* Adjust the width as needed */
+  margin-left: 0;
+  margin-right: auto;
+  padding: 10px;
+}
+
 

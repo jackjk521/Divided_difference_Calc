@@ -30,20 +30,20 @@ const SideNavigation = () => {
 
             <hr/>
         <div class="container">
-  
-            <div class="lead dropdown pb-4 custom-dropdown fixed-bottom ">
-            MAT 4201 <br/>
-            Group  8 Members:
-            <ul>
-                <li>Amaba, Carlina</li>
-                <li>Chu, Jed Abner</li>
-                <li>Colina, Luke Abram</li>
-                <li>Pasana, Jon Francis</li>
-                <li>Tinga, Justin Dominic</li>
-            </ul>
+            <div class="lead pb-4 custom-dropdown names fixed-bottom custom-width">
+                MAT 4201 <br/>
+                Group  8 Members:
+                <ul>
+                    <li>Amaba, Carlina</li>
+                    <li>Chu, Jed Abner</li>
+                    <li>Colina, Luke Abram</li>
+                    <li>Pasana, Jon Francis</li>
+                    <li>Tinga, Justin Dominic</li>
+                </ul>
+                </div>
             </div>
         </div>
-        </div>
+        
     </div>
         
   )
