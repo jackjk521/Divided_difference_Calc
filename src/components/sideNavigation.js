@@ -21,11 +21,11 @@ const SideNavigation = () => {
                     <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Program</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                {/* <li class="nav-item">
                     <a href="#conclusion" class="nav-link align-middle px-0">
                     <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Conclusion</span>
                     </a>
-                </li>
+                </li> */}
             </ul>
 
             <hr/>
