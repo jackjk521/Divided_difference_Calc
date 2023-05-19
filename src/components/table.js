@@ -1,25 +1,28 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from "react";
 
-const TableGenerator = (props) =>{
-  const [numRows, setNumRows] = useState(0);
-  const [tableData, setTableData] = useState([]);
-  const [xArray, setXArray] = useState([]);
-  const [fArray, setFArray] = useState([]);
-  const [interpolateValue, setInterpolateValue] = useState(0);
+const TableGenerator = (props) => {
+	const [numRows, setNumRows] = useState(0);
+	const [tableData, setTableData] = useState([]);
+	const [xArray, setXArray] = useState([]);
+	const [fArray, setFArray] = useState([]);
+	const [interpolateValue, setInterpolateValue] = useState(0);
   const [output, newOutput] = useState('')
-  const numRowsInputRef = useRef(null);
+	const numRowsInputRef = useRef(null);
 
-  function round(value, decimals) {
-    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
-  }
+	function round(value, decimals) {
+		return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
+	}
 
-  function dividedRecursion(n,m,x,f) {
-    if (n == m) {
-        return f[n]
-    } else {
-        return (dividedRecursion(n+1,m,x,f)-dividedRecursion(n,m-1,x,f))/(x[m] - x[n])
-    }
-  }
+	function dividedRecursion(n, m, x, f) {
+		if (n == m) {
+			return f[n];
+		} else {
+			return (
+				(dividedRecursion(n + 1, m, x, f) - dividedRecursion(n, m - 1, x, f)) /
+				(x[m] - x[n])
+			);
+		}
+	}
 
   const PolynomialMaker = (x, f, givenX) =>{
     var final = f[0];
@@ -41,79 +44,88 @@ const TableGenerator = (props) =>{
       string = string + " + " + stringequation + "(" + round(dividedAnswer, 5) + ")";
     }
     newOutput("Output: " + final + ", Polynomial Function: " + string)
-    props.parentCallback(final, string)
+    props.parentCallback(final, string, x, f)
   }
 
-  const handleNumRowsChange = (e) => { //Number of rows can only be whole numbers
-    const value = parseInt(e.target.value, 10);
-    if (!isNaN(value) && Number.isInteger(value) && value >= 0) {
-      setNumRows(value);
-    }
-  };
+	const handleNumRowsChange = (e) => {
+		//Number of rows can only be whole numbers
+		const value = parseInt(e.target.value, 10);
+		if (!isNaN(value) && Number.isInteger(value) && value >= 0) {
+			setNumRows(value);
+		}
+	};
 
-  const handleCellValueChange = (e, rowIndex, columnName) => { //Table input can only be integers
-    const { value } = e.target;
-    if (/^[-+]?[0-9]*\.?[0-9]*$/.test(value) || value === '') {
-      const updatedData = [...tableData];
-      updatedData[rowIndex][columnName] = value;
-      setTableData(updatedData);
-    }
-  };
+	const handleCellValueChange = (e, rowIndex, columnName) => {
+		//Table input can only be integers
+		const { value } = e.target;
+		if (/^[-+]?[0-9]*\.?[0-9]*$/.test(value) || value === "") {
+			const updatedData = [...tableData];
+			updatedData[rowIndex][columnName] = value;
+			setTableData(updatedData);
+		}
+	};
 
-  const handleInterpolateValueChange = (e) => { //input can only be integers
-    const { value } = e.target;
-    if (/^[-+]?[0-9]*\.?[0-9]*$/.test(value) || value === '') {
-      setInterpolateValue(value);
-    }
-  };
+	const handleInterpolateValueChange = (e) => {
+		//input can only be integers
+		const { value } = e.target;
+		if (/^[-+]?[0-9]*\.?[0-9]*$/.test(value) || value === "") {
+			setInterpolateValue(value);
+		}
+	};
 
-  const generateTable = () => { //creates the empty table
-    const rows = [];
-    for (let i = 0; i < numRows; i++) {
-      rows.push({
-        x: '',
-        f: ''
-      });
-    }
-    setTableData(rows);
-  };
+	const generateTable = () => {
+		//creates the empty table
+		const rows = [];
+		for (let i = 0; i < numRows; i++) {
+			rows.push({
+				x: "",
+				f: "",
+			});
+		}
+		setTableData(rows);
+	};
 
-  const handleDataOperation = () => { //putiing values from table to arrays
-    const xValues = [];
-    const fValues = [];
+	const handleDataOperation = () => {
+		//putiing values from table to arrays
+		const xValues = [];
+		const fValues = [];
 
-    tableData.forEach((row) => { //ATM prints the arrays of data inputted by user
-      xValues.push(row.x);
-      fValues.push(row.f);
-    });
+		tableData.forEach((row) => {
+			//ATM prints the arrays of data inputted by user
+			xValues.push(row.x);
+			fValues.push(row.f);
+		});
 
-    setXArray(xValues);
-    setFArray(fValues);
+		setXArray(xValues);
+		setFArray(fValues);
 
-    PolynomialMaker(xValues, fValues, interpolateValue);
-  };
+		PolynomialMaker(xValues, fValues, interpolateValue);
+	};
 
-  const handleRandomizeValues = () => {
-    const randomizedData = tableData.map((row) => ({
-      x: (Math.random() * 200 - 100).toFixed(2),
-      f: (Math.random() * 200 - 100).toFixed(2)
-    }));
+	const handleRandomizeValues = () => {
+		const randomizedData = tableData.map((row) => ({
+			// x: (Math.random() * 200 - 100).toFixed(2),
+			x: (Math.random() * 20 - 10).toFixed(2),
+			// f: (Math.random() * 200 - 100).toFixed(2),
+			f: (Math.random() * 20 - 10).toFixed(2),
+		}));
 
-    setTableData(randomizedData);
-  };
+		setTableData(randomizedData);
+	};
 
-  const handleReset = () => {
-    setNumRows(0);
-    setTableData([]);
-    setXArray([]);
-    setFArray([]);
-    setInterpolateValue('');
-    newOutput('');
-  
-    if (numRowsInputRef.current) {
-      numRowsInputRef.current.value = ''; // Clearing the input field
-    }
-  };
+	const handleReset = () => {
+		setNumRows(0);
+		setTableData([]);
+		setXArray([]);
+		setFArray([]);
+		setInterpolateValue("");
+    	newOutput('');
+		props.parentCallback('', '', [], [])
+
+		if (numRowsInputRef.current) {
+			numRowsInputRef.current.value = ""; // Clearing the input field
+		}
+	};
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

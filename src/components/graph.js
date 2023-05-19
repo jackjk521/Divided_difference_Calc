@@ -8,7 +8,7 @@ const GraphComponent = ({ x, y, fx }) => {
 	const [mode, setMode] = useState("points");
 
 	const isValidArray = (arr) =>
-		arr.every((value) => typeof value === "number" && !isNaN(value));
+  		arr.every((value) => !isNaN(parseFloat(value)));
 
 	const handleModeChange = (event) => {
 		setMode(event.target.value);
@@ -62,7 +62,7 @@ const GraphComponent = ({ x, y, fx }) => {
 				});
 			}
 		}
-	}, [mode]);
+	}, [x, y, fx, mode]);
 
 	return (
 		<>
