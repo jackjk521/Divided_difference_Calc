@@ -6,7 +6,7 @@ const TableGenerator = (props) =>{
   const [xArray, setXArray] = useState([]);
   const [fArray, setFArray] = useState([]);
   const [interpolateValue, setInterpolateValue] = useState(0);
-
+  const [output, newOutput] = useState('')
   const numRowsInputRef = useRef(null);
 
   function round(value, decimals) {
@@ -40,6 +40,7 @@ const TableGenerator = (props) =>{
       final += equation;
       string = string + " + " + stringequation + "(" + round(dividedAnswer, 5) + ")";
     }
+    newOutput("Output: " + final + ", Polynomial Function: " + string)
     props.parentCallback(final, string)
   }
 
@@ -107,6 +108,7 @@ const TableGenerator = (props) =>{
     setXArray([]);
     setFArray([]);
     setInterpolateValue('');
+    newOutput('');
   
     if (numRowsInputRef.current) {
       numRowsInputRef.current.value = ''; // Clearing the input field
@@ -166,6 +168,12 @@ const TableGenerator = (props) =>{
               <button onClick={handleDataOperation}>Store and Print Data</button>
               <button onClick={handleRandomizeValues}>Randomize Values</button>
               <button onClick={handleReset}>Reset</button>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+              <p>
+                {output}
+              </p>
             </div>
           </div>
         )}
