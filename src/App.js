@@ -6,6 +6,12 @@ import { MathJaxContext, MathJax } from 'better-react-mathjax';
 import TableGenerator from './components/table';
 
 function App() {
+
+  const output = (final, string) =>{
+    console.log(final);
+    console.log(string);
+  }
+
   return (
   <div class="container-fluid">
     <div class="row flex-nowrap">
@@ -24,7 +30,7 @@ function App() {
 
             <div id="program">
               <h4>Program</h4>
-              <TableGenerator></TableGenerator>
+              <TableGenerator parentCallback = {output}/>
               <GraphComponent/>
             </div>
 

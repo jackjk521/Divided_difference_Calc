@@ -1,13 +1,47 @@
 import React, { useState, useRef } from 'react';
 
-function TableGenerator() {
+const TableGenerator = (props) =>{
   const [numRows, setNumRows] = useState(0);
   const [tableData, setTableData] = useState([]);
   const [xArray, setXArray] = useState([]);
   const [fArray, setFArray] = useState([]);
-  const [interpolateValue, setInterpolateValue] = useState('');
+  const [interpolateValue, setInterpolateValue] = useState(0);
 
   const numRowsInputRef = useRef(null);
+
+  function round(value, decimals) {
+    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+  }
+
+  function dividedRecursion(n,m,x,f) {
+    if (n == m) {
+        return f[n]
+    } else {
+        return (dividedRecursion(n+1,m,x,f)-dividedRecursion(n,m-1,x,f))/(x[m] - x[n])
+    }
+  }
+
+  const PolynomialMaker = (x, f, givenX) =>{
+    var final = f[0];
+    var equation;
+    var stringequation;
+    givenX = parseFloat(givenX)
+    var string = final;
+    final = parseFloat(final)
+    for (let i = 0; i < x.length - 1; i++) {
+      equation = 1;
+      stringequation = "";
+      for (let j = 0; j < i + 1; j++) {
+        equation *= (givenX - x[j]);
+        stringequation = stringequation + "(x - " + x[j] + ")";
+      }
+      var dividedAnswer = dividedRecursion(0, i + 1, x, f);
+      equation *= dividedAnswer;
+      final += equation;
+      string = string + " + " + stringequation + "(" + round(dividedAnswer, 5) + ")";
+    }
+    props.parentCallback(final, string)
+  }
 
   const handleNumRowsChange = (e) => { //Number of rows can only be whole numbers
     const value = parseInt(e.target.value, 10);
@@ -55,9 +89,7 @@ function TableGenerator() {
     setXArray(xValues);
     setFArray(fValues);
 
-    console.log('xArray:', xValues);
-    console.log('fArray:', fValues);
-    console.log('Value to interpolate:', interpolateValue);
+    PolynomialMaker(xValues, fValues, interpolateValue);
   };
 
   const handleRandomizeValues = () => {
