@@ -12,13 +12,13 @@ const SideNavigation = () => {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#program" class="nav-link align-middle px-0">
-                        <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Program</span>
+                    <a href="#specification" class="nav-link align-middle px-0">
+                        <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Specification</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#specification" class="nav-link align-middle px-0">
-                        <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Specification</span>
+                    <a href="#program" class="nav-link align-middle px-0">
+                        <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Program</span>
                     </a>
                 </li>
                 <li class="nav-item">
