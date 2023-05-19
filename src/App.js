@@ -21,7 +21,8 @@ function App() {
     setXArr(x);
     setFArr(f);
     setFx(string);
-	setDisplayGraph(prev => !prev)
+	setDisplayGraph((final === '' && string === '') ? false : true)
+	
   };
 
   return (
